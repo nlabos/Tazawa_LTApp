@@ -45,28 +45,27 @@ struct MusicPlayerView: View {
                     
                     
                     if isPlaying {
-                        Image(systemName: "play.fill")
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .padding()
-                            .onTapGesture {
-                                musicplayer.musicPlayer()
-                                print("play")
-                                isPlaying.toggle()
-                            }
-                    }
-                    else {
                         Image(systemName: "pause.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
                             .padding()
+                        // 一時停止ボタンの設定
                             .onTapGesture {
                                 musicplayer.stopAllMusic()
-                                print("pause")
-                                isPlaying.toggle()
-                                
+                                isPlaying = false
                             }
-                        
+                    } else {
+                        Image(systemName: "play.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .padding()
+                        // 再生ボタンの設定
+                            .onTapGesture {
+                                if let musicFileName = viewModel.selectedPhoto?.musicFileName {
+                                    musicplayer.playMusic(fileName: musicFileName)
+                                }
+                                isPlaying = true
+                            }
                     }
                     
                     Image(systemName: "forward.fill")

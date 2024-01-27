@@ -8,26 +8,28 @@
 import UIKit
 import AVFoundation
 
+// SoundPlayer の更新
 class SoundPlayer: NSObject {
-    //音源の指定
-    let music_data=NSDataAsset(name: "Wu")!.data
+    var music_player: AVAudioPlayer!
     
-    var music_player:AVAudioPlayer!
-    
-    //音楽を再生
-    func musicPlayer(){
+    // 音楽ファイル名を引数として受け取る
+    func playMusic(fileName: String) {
+        // 音源の指定
+        guard let musicData = NSDataAsset(name: fileName)?.data else {
+            print("音楽ファイルが見つかりません")
+            return
+        }
         
-        do{
-            music_player=try AVAudioPlayer(data:music_data)
+        do {
+            music_player = try AVAudioPlayer(data: musicData)
             music_player.play()
-            
-        }catch{
-            print("エラー発生.音を流せません")
+        } catch {
+            print("エラー発生: 音を流せません")
         }
     }
     
     //音楽を停止
-    func stopAllMusic (){
+    func stopAllMusic() {
         music_player?.stop()
     }
 }
