@@ -21,23 +21,18 @@ struct MusicListView: View {
                     viewModel.selectedPhoto = item
                     print(item.photoName)
                 }
-                
-                
-                
             }
-            
             .navigationBarTitle("Music PlayList")
         }
     }
 }
-
 
 struct ListMusicPhotUI: View {
     var photo: PhotoModel
 
     var body: some View {
         HStack {
-            Image(photo.photoImageName) // 画像ファイル名用のプロパティを使用
+            Image(photo.photoImageName)
                 .resizable()
                 .frame(width: 70, height: 70)
                 .cornerRadius(10.0)
