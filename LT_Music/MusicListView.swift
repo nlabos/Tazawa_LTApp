@@ -21,16 +21,11 @@ struct MusicListView: View {
                     viewModel.selectedPhoto = item
                     print(item.photoName)
                 }
-                
-                
-                
             }
-            
             .navigationBarTitle("Music PlayList")
         }
     }
 }
-
 
 struct ListMusicPhotUI: View {
     var photo: PhotoModel
