@@ -14,41 +14,47 @@ var photoArray:[PhotoModel] = makePhotoData()
 struct PhotoModel: Identifiable {
     var id: Int
     var photoName: String
-    var photoImageName: String
-    var musicFileName: String
+    var photoImageName: String // 画像ファイル名用のプロパティ
+    var musicFileName: String 
 }
 
 func makePhotoData() -> [PhotoModel] {
     var dataArray: [PhotoModel] = []
     
     // 画像ファイル名を追加
-    dataArray.append(PhotoModel(id: 1, photoName: "C.R.E.A.M. - Wu Tang Clan", photoImageName: "C.R.E.A.M.- Wu Tang Clan",  musicFileName: "Wu"))
-    dataArray.append(PhotoModel(id: 2, photoName: "Award Tour", photoImageName: "Award Tour", musicFileName: ""))
-    dataArray.append(PhotoModel(id: 3, photoName: "New York State of Mind", photoImageName: "New York State of Mind", musicFileName: ""))
-    dataArray.append(PhotoModel(id: 4, photoName: "All Caps", photoImageName: "All Caps", musicFileName: ""))
-    dataArray.append(PhotoModel(id: 5, photoName: "Shook Ones Pt.II - Mobb Deep", photoImageName: "Shook Ones Pt. II - Mobb Deep", musicFileName: ""))
+    dataArray.append(PhotoModel(id: 1, photoName: "C.R.E.A.M. - Wu Tang Clan", photoImageName: "C.R.E.A.M.- Wu Tang Clan", musicFileName: "Wu"))
+    dataArray.append(PhotoModel(id: 2, photoName: "Award Tour", photoImageName: "Award Tour", musicFileName: "AwardTour"))
+    dataArray.append(PhotoModel(id: 3, photoName: "New York State of Mind", photoImageName: "New York State of Mind", musicFileName: "NYSoM"))
+    dataArray.append(PhotoModel(id: 4, photoName: "All Caps", photoImageName: "All Caps", musicFileName: "AllCaps"))
+    dataArray.append(PhotoModel(id: 5, photoName: "Shook Ones Pt.II - Mobb Deep", photoImageName: "Shook Ones Pt. II - Mobb Deep", musicFileName: "Shook1s"))
     return dataArray
 }
 
 
-//ここ変更する
+
 class ViewModel: ObservableObject {
     @Published var selectedPhoto: PhotoModel?
-    @Published var selectedIndex: Int = 0 {
-        didSet {
-            selectedPhoto = photoArray[selectedIndex]
-        }
+    private var photoIndex = 0
+    
+    var selectedMusicFileName: String? {
+        selectedPhoto?.musicFileName
     }
+    
+    func playNext() {
+            photoIndex += 1
+            if photoIndex >= photoArray.count {
+                photoIndex = 0
+            }
+            selectedPhoto = photoArray[photoIndex]
+        }
 
-    func nextPhoto() {
-        if selectedIndex < photoArray.count - 1 {
-            selectedIndex += 1
+        // 前の曲を再生
+        func playPrevious() {
+            photoIndex -= 1
+            if photoIndex < 0 {
+                photoIndex = photoArray.count - 1
+            }
+            selectedPhoto = photoArray[photoIndex]
         }
-    }
-
-    func previousPhoto() {
-        if selectedIndex > 0 {
-            selectedIndex -= 1
-        }
-    }
 }
+
