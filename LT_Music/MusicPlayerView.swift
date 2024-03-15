@@ -38,12 +38,17 @@ struct MusicPlayerView: View {
                 
                 
                 HStack {
-                    Image(systemName: "backward.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .padding()
-                    
-                    
+                    Button(action: {
+                           viewModel.previousPhoto()
+                           if let musicFileName = viewModel.selectedPhoto?.musicFileName {
+                               musicplayer.playMusic(fileName: musicFileName)
+                           }
+                       }) {
+                           Image(systemName: "backward.fill")
+                               .resizable()
+                               .frame(width: 40, height: 40)
+                               .padding()
+                       }
                     if isPlaying {
                         Image(systemName: "pause.fill")
                             .resizable()
@@ -68,10 +73,17 @@ struct MusicPlayerView: View {
                             }
                     }
                     
-                    Image(systemName: "forward.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .padding()
+                    Button(action: {
+                            viewModel.nextPhoto()
+                            if let musicFileName = viewModel.selectedPhoto?.musicFileName {
+                                musicplayer.playMusic(fileName: musicFileName)
+                            }
+                        }) {
+                            Image(systemName: "forward.fill")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .padding()
+                        }
                 }
                 
                 Spacer()

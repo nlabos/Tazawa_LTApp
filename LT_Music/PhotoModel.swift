@@ -31,13 +31,24 @@ func makePhotoData() -> [PhotoModel] {
 }
 
 
-
+//ここ変更する
 class ViewModel: ObservableObject {
     @Published var selectedPhoto: PhotoModel?
-    
-    // 選択された音楽ファイル名を取得するメソッド
-       var selectedMusicFileName: String? {
-           selectedPhoto?.musicFileName
-       }
-}
+    @Published var selectedIndex: Int = 0 {
+        didSet {
+            selectedPhoto = photoArray[selectedIndex]
+        }
+    }
 
+    func nextPhoto() {
+        if selectedIndex < photoArray.count - 1 {
+            selectedIndex += 1
+        }
+    }
+
+    func previousPhoto() {
+        if selectedIndex > 0 {
+            selectedIndex -= 1
+        }
+    }
+}
