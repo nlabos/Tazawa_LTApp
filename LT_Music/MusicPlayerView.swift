@@ -38,51 +38,55 @@ struct MusicPlayerView: View {
                 
                 
                 HStack {
-                    Button(action: {
-                           viewModel.previousPhoto()
-                           if let musicFileName = viewModel.selectedPhoto?.musicFileName {
-                               musicplayer.playMusic(fileName: musicFileName)
-                           }
-                       }) {
-                           Image(systemName: "backward.fill")
-                               .resizable()
-                               .frame(width: 40, height: 40)
-                               .padding()
-                       }
+                    Image(systemName: "backward.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .padding()
+                        .onTapGesture {
+                            viewModel.playPrevious()
+                        }
+                    
+                    
+                   
+                    
                     if isPlaying {
                         Image(systemName: "pause.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
                             .padding()
-                        // 一時停止ボタンの設定
                             .onTapGesture {
                                 musicplayer.stopAllMusic()
+                                print("play")
                                 isPlaying = false
                             }
-                    } else {
+                    }
+                    else {
                         Image(systemName: "play.fill")
                             .resizable()
                             .frame(width: 40, height: 40)
                             .padding()
-                        // 再生ボタンの設定
                             .onTapGesture {
+                                musicplayer.stopAllMusic()
+                                print("pause")
+                                isPlaying.toggle()
+                                
                                 if let musicFileName = viewModel.selectedPhoto?.musicFileName {
+                                    
                                     musicplayer.playMusic(fileName: musicFileName)
                                 }
                                 isPlaying = true
                             }
                     }
                     
-                    Button(action: {
-                            viewModel.nextPhoto()
-                            if let musicFileName = viewModel.selectedPhoto?.musicFileName {
-                                musicplayer.playMusic(fileName: musicFileName)
-                            }
-                        }) {
-                            Image(systemName: "forward.fill")
-                                .resizable()
-                                .frame(width: 40, height: 40)
-                                .padding()
+                    
+                    
+                    
+                    Image(systemName: "forward.fill")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .padding()
+                        .onTapGesture {
+                            viewModel.playNext()
                         }
                 }
                 
@@ -90,6 +94,7 @@ struct MusicPlayerView: View {
             }
             //.navigationBarTitle(viewModel.selectedPhoto?.photoName ?? "C.R.E.A.M.")
             .onAppear {
+                // ここで初期化処理を実行
                 print("MusicPlayerViewが表示されました。")
                 if let selectedPhoto = viewModel.selectedPhoto {
                     print("選択された写真: \(selectedPhoto.photoName)")
@@ -105,3 +110,4 @@ struct MusicPlayerView: View {
 #Preview {
     MusicPlayerView()
 }
+
